@@ -1,34 +1,37 @@
 from fastapi import FastAPI
-
 import uvicorn
+import traceback
+import sys
 
-from models.user import Base, User
-from models.favorite import Favorite
-from models.song import Song
+# Сначала тестируем проблемные импорты
+try:
+    from models.user import Base, User
+    from models.favorite import Favorite
+    from models.song import Song
+    from routes import auth, cheker, retrain, file
+    from database.database import engine
+except Exception as e:
+    traceback.print_exc()
+    sys.exit(1)
 
-from routes import auth, cheker , retrain , file
-from database.database import engine
 from fastapi.middleware.cors import CORSMiddleware
 
-
-app =FastAPI()
-app.include_router(auth.router ,prefix="/auth")
-
-
-app.include_router(cheker.router , prefix="/check")
-
-# app.include_router(retrain.router  , prefix="/retrain")
-app.include_router(file.router  , prefix="/file")
+app = FastAPI()
+app.include_router(auth.router, prefix="/auth")
+app.include_router(cheker.router, prefix="/check")
+# app.include_router(retrain.router, prefix="/retrain")
+app.include_router(file.router, prefix="/file")
 
 app.add_middleware(
-    CORSMiddleware ,
+    CORSMiddleware,
     allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-
-# Base.metadata.create_all(bind=engine)
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+try:
+    Base.metadata.create_all(bind=engine)
+    print("✅ Database tables created successfully")
+except Exception as e:
+    traceback.print_exc()
+    sys.exit(1)
