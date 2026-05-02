@@ -8,7 +8,7 @@ try:
     from models.user import Base, User
     from models.favorite import Favorite
     from models.song import Song
-    from routes import auth, cheker, retrain, file
+    from routes import auth, cheker, file
     from database.database import engine
 except Exception as e:
     traceback.print_exc()
