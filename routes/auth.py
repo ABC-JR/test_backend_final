@@ -70,17 +70,17 @@ def login(user: UserLogin , db :Session = Depends(get_db)):
 
 
 
-
 @router.get("/")
 def current_user_data(db:Session = Depends(get_db) , user =  Depends(auth_middleware)):
    
 
-    finuser = db.query(Favorite).filter(Favorite.id == user.id).options(
-        joinedload(Favorite.song) ,
-        joinedload(Favorite.user)
-
-    ).first()
+    finuser = db.query(User).filter(User.id == user.id).first()
     return finuser     
+
+
+     
+
+    
 
 
 
