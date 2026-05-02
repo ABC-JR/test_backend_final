@@ -6,13 +6,6 @@ from sklearn.naive_bayes import MultinomialNB
 import re
 
 
-from schemas.spam_user import *
-
-from schemas.batch_spam_request import *
-from schemas.feedback import *
-from core.model import *
-
-
 
 
 
