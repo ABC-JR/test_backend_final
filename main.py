@@ -3,6 +3,8 @@ import uvicorn
 import traceback
 import sys
 
+print("IMPORTS DONE")
+
 # Сначала тестируем проблемные импорты
 try:
     from models.user import Base, User
@@ -28,6 +30,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+print("STARTING APP...")
+
 
 try:
     Base.metadata.create_all(bind=engine)
